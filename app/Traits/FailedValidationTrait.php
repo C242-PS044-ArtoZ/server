@@ -10,6 +10,12 @@
   {
     protected function failedValidation(Validator $validator): void
     {
-      throw new HttpResponseException(ApiResponse::error('Invalid data submitted.', 422, $validator->errors()->toArray()));
+      throw new HttpResponseException(
+        ApiResponse::error(
+          'Validation failed. Please check the provided data and try again.',
+          422,
+          $validator->errors()->toArray()
+        )
+      );
     }
   }
