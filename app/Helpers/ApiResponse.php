@@ -17,7 +17,6 @@
       return response()->json(array_merge([
         'status' => $status,
         'message' => $message,
-        'code' => $code,
       ], $additional), $code);
     }
 
