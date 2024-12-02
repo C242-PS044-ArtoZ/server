@@ -9,37 +9,34 @@
   {
     use FailedValidationTrait;
 
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-      return true; // Allow all users to attempt login
+      return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
       return [
-        'email' => 'required|email|exists:users,email',
-        'password' => 'required|string|min:8',
+        'email' => ['required', 'email:rfc,dns', 'exists:users,email', 'max:255'],
+        'password' => [
+          'required', 'string', 'min:8', 'max:64',
+          'regex:/[A-Z]/', 'regex:/[a-z]/', 'regex:/[0-9]/', 'regex:/[@$!%*?&]/',
+        ],
       ];
     }
 
-    /**
-     * Custom messages for validation.
-     */
     public function messages(): array
     {
       return [
-        'email.required' => 'Email address is required.',
-        'email.email' => 'Please provide a valid email address.',
-        'email.exists' => 'This email address is not registered.',
-        'password.required' => 'Password is required.',
-        'password.string' => 'Password must be a valid string.',
-        'password.min' => 'Password must be at least 8 characters long.',
+        'email.required' => 'The email address field is required.',
+        'email.email' => 'The email address must be valid and properly formatted.',
+        'email.exists' => 'The email address does not match our records.',
+        'email.max' => 'The email address must not exceed 255 characters.',
+        'password.required' => 'The password field is required.',
+        'password.string' => 'The password must be a valid string.',
+        'password.min' => 'The password must be at least 8 characters long.',
+        'password.max' => 'The password must not exceed 64 characters.',
+        'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
       ];
     }
   }
