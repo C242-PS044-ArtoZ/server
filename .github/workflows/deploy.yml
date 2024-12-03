@@ -22,7 +22,6 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: artoz-backend
-          install_components: '["gcloud"]'
 
       - name: Authenticate Docker with Artifact Registry
         run: gcloud auth configure-docker asia-southeast2-docker.pkg.dev
