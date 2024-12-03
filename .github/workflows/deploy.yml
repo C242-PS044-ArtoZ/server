@@ -23,15 +23,16 @@ jobs:
         run: gcloud auth configure-docker asia-southeast2-docker.pkg.dev
 
       - name: Build and push Docker image
+
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPO_NAME }}/app:latest"
+          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPO_NAME }}/artoz-server-laravel:latest"
           docker build -t $IMAGE .
           docker push $IMAGE
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy app \
-            --image "asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPO_NAME }}/app:latest" \
+            --image "asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPO_NAME }}/artoz-server-laravel:latest" \
             --region ${{ secrets.REGION }} \
             --platform managed \
             --allow-unauthenticated
