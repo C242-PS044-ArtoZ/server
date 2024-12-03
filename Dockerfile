@@ -28,8 +28,12 @@ RUN php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
 
+# Copy and set permissions for start.sh
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
 # Expose port
 EXPOSE 8080
 
-# Start Nginx and PHP-FPM
-CMD ["sh", "-c", "nginx && php-fpm"]
+# Use start.sh to start services
+CMD ["/usr/local/bin/start.sh"]
