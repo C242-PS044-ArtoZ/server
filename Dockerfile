@@ -16,7 +16,7 @@ COPY nginx.conf /etc/nginx/sites-available/default
 # Set working directory
 WORKDIR /var/www
 
-# Copy application files
+# Copy application files while respecting .dockerignore
 COPY . .
 
 # Install Composer
