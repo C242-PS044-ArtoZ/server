@@ -1,4 +1,4 @@
-name: Build and Deploy Laravel API to Cloud Run
+name: Build and Deploy to Cloud Run
 
 on:
   push:
