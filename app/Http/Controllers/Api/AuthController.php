@@ -10,6 +10,7 @@
   use App\Models\User;
   use App\Traits\TryCatchTrait;
   use Illuminate\Http\JsonResponse;
+  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Hash;
   use Symfony\Component\HttpFoundation\Response as ResponseAlias;
   use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -49,6 +50,28 @@
           'Login successful. You are now logged in.',
           ResponseAlias::HTTP_OK,
           $token
+        );
+      });
+    }
+
+    public function logout(): JsonResponse
+    {
+      return $this->executeSafely(function () {
+        $token = Auth::user()?->currentAccessToken();
+
+        if (!$token) {
+          throw new HttpException(
+            ResponseAlias::HTTP_UNAUTHORIZED,
+            'Your session has expired or is invalid. Please log in again to continue.'
+          );
+        }
+
+        $token->delete();
+
+        return ApiResponse::success(
+          null,
+          'You have successfully logged out. Thank you for using our service.',
+          ResponseAlias::HTTP_OK
         );
       });
     }
