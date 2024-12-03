@@ -28,14 +28,14 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/artoz-backend/artoz/artoz-server-laravel-ci-cd:latest"
+          IMAGE="asia-southeast2-docker.pkg.dev/artoz-backend/artoz-ci-cd/artoz-server-laravel-ci-cd:latest"
           docker build -t $IMAGE .
           docker push $IMAGE
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy artoz-server-laravel-cicd \
-            --image "asia-southeast2-docker.pkg.dev/artoz-backend/artoz/artoz-server-laravel-ci-cd:latest" \
+          gcloud run deploy artoz-server-laravel-ci-cd \
+            --image "asia-southeast2-docker.pkg.dev/artoz-backend/artoz-ci-cd/artoz-server-laravel-ci-cd:latest" \
             --region asia-southeast2 \
             --platform managed \
             --allow-unauthenticated
