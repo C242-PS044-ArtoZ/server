@@ -17,21 +17,21 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.PROJECT_ID }}
+          project_id: artoz-backend
 
       - name: Authenticate Docker with Artifact Registry
         run: gcloud auth configure-docker asia-southeast2-docker.pkg.dev
 
       - name: Build and push Docker image
         run: |
-          IMAGE="asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/artoz/artoz-server-laravel:latest"
+          IMAGE="asia-southeast2-docker.pkg.dev/artoz-backend/artoz/artoz-server-laravel-ci-cd:latest"
           docker build -t $IMAGE .
           docker push $IMAGE
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy artoz-server-laravel-cicd \
-            --image "asia-southeast2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/artoz/artoz-server-laravel:latest" \
-            --region ${{ secrets.REGION }} \
+          gcloud run deploy artoz-server-laravel-ci-cd \
+            --image "asia-southeast2-docker.pkg.dev/artoz-backend/artoz/artoz-server-laravel-ci-cd:latest" \
+            --region asia-southeast2 \
             --platform managed \
             --allow-unauthenticated
