@@ -36,5 +36,4 @@ jobs:
             --image "asia-southeast2-docker.pkg.dev/artoz-backend/artoz-ci-cd/artoz-server-laravel-ci-cd:latest" \
             --region asia-southeast2 \
             --platform managed \
-            --allow-unauthenticated \
-            --update-secrets="APP_NAME=APP_NAME:latest,APP_ENV=APP_ENV:latest,APP_KEY=APP_KEY:latest,APP_DEBUG=APP_DEBUG:latest,APP_TIMEZONE=APP_TIMEZONE:latest,DB_CONNECTION=DB_CONNECTION:latest,DB_HOST=DB_HOST:latest,DB_PORT=DB_PORT:latest,DB_DATABASE=DB_DATABASE:latest,DB_USERNAME=DB_USERNAME:latest,DB_PASSWORD=DB_PASSWORD:latest"
+            --allow-unauthenticated
