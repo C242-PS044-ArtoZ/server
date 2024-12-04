@@ -10,6 +10,7 @@
   use App\Models\User;
   use App\Traits\TryCatchTrait;
   use Illuminate\Http\JsonResponse;
+  use Illuminate\Http\Request;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Hash;
   use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -19,7 +20,7 @@
   {
     use TryCatchTrait;
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(Request $request): JsonResponse
     {
       return $this->executeSafely(function () use ($request) {
         $user = User::create($request->only('name', 'email', 'password'));
@@ -31,7 +32,7 @@
       });
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(Request $request): JsonResponse
     {
       return $this->executeSafely(function () use ($request) {
         $user = User::where('email', $request->email)->firstOrFail();
