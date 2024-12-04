@@ -4,8 +4,6 @@
 
   use App\Helpers\ApiResponse;
   use App\Http\Controllers\Controller;
-  use App\Http\Requests\LoginRequest;
-  use App\Http\Requests\RegisterRequest;
   use App\Http\Resources\UserResource;
   use App\Models\User;
   use App\Traits\TryCatchTrait;
