@@ -1,10 +1,8 @@
 <?php
 
-  use App\Helpers\ApiResponse;
   use Illuminate\Foundation\Application;
   use Illuminate\Http\Request;
   use Symfony\Component\HttpFoundation\Response;
-  use Symfony\Component\HttpKernel\Exception\HttpException;
 
   return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,13 +11,21 @@
       commands: __DIR__ . '/../routes/console.php',
       health: '/up',
     )
-    ->withMiddleware(fn($middleware) => $middleware->group('api', [
-    ]))
-    ->withExceptions(fn($exceptions) => $exceptions->render(fn(Exception $e, Request $request) => $request->is('api/*')
-      ? ApiResponse::error(
-        Response::$statusTexts[$statusCode = ($e instanceof HttpException) ? $e->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR] ?? 'An unexpected error occurred.',
-        $statusCode
-      )
-      : null
-    ))
+    ->withMiddleware(fn($middleware) => [])
+    ->withExceptions(fn($exceptions) => $exceptions->render(function (Throwable $e, Request $request) {
+      $statusCode = method_exists($e, 'getStatusCode')
+        ? $e->getStatusCode()
+        : Response::HTTP_INTERNAL_SERVER_ERROR;
+
+      $errorMessage = $e->getMessage() ?: 'An unexpected error occurred.';
+
+      return $request->is('api/*')
+        ? response()->json([
+          'success' => false,
+          'message' => $errorMessage,
+          'code' => $statusCode,
+          'trace' => env('APP_DEBUG') ? $e->getTrace() : null,
+        ], $statusCode)
+        : null;
+    }))
     ->create();
