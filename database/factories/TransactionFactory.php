@@ -1,14 +1,16 @@
 <?php
 
-namespace Database\Factories;
+  namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+  use App\Models\Transaction;
+  use App\Models\User;
+  use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
- */
-class TransactionFactory extends Factory
-{
+  /**
+   * @extends Factory<Transaction>
+   */
+  class TransactionFactory extends Factory
+  {
     /**
      * Define the model's default state.
      *
@@ -16,8 +18,11 @@ class TransactionFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+      return [
+        'nominal' => fake()->randomFloat(2, 10, 1000),
+        'type' => fake()->randomElement(['income', 'expense']),
+        'description' => fake()->sentence(),
+        'user_id' => User::factory(), // Automatically associate with a user
+      ];
     }
-}
+  }

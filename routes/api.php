@@ -11,5 +11,6 @@
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('transactions', TransactionController::class);
-  });
 
+    Route::get('/transactions-summary', [TransactionController::class, 'summary']);
+  });

@@ -2,6 +2,7 @@
 
   namespace App\Models;
 
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Concerns\HasUlids;
   use Illuminate\Database\Eloquent\Factories\HasFactory;
   use Illuminate\Database\Eloquent\Model;
@@ -31,5 +32,23 @@
     public function setUserIdAttribute($value): void
     {
       $this->attributes['user_id'] = (string)$value;
+    }
+
+    // Accessor for formatted created_at
+    public function getFormattedCreatedAtAttribute(): string
+    {
+      return Carbon::parse($this->created_at)->format('d-m-Y H:i:s');
+    }
+
+    // Accessor for formatted updated_at
+    public function getFormattedUpdatedAtAttribute(): string
+    {
+      return Carbon::parse($this->updated_at)->format('d-m-Y H:i:s');
+    }
+
+    // Accessor for formatted deleted_at
+    public function getFormattedDeletedAtAttribute(): ?string
+    {
+      return $this->deleted_at ? Carbon::parse($this->deleted_at)->format('d-m-Y H:i:s') : null;
     }
   }

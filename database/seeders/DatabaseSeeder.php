@@ -1,23 +1,26 @@
 <?php
 
-namespace Database\Seeders;
+  namespace Database\Seeders;
 
-use App\Models\User;
+  use App\Models\Transaction;
+  use App\Models\User;
+  use Illuminate\Database\Seeder;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
+  class DatabaseSeeder extends Seeder
+  {
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+      // Create test users
+      User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+      // Create transactions for each user
+      User::all()->each(function (User $user) {
+        Transaction::factory(5)->create(['user_id' => $user->id]);
+      });
     }
-}
+  }

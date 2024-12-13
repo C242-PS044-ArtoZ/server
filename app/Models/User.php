@@ -2,6 +2,7 @@
 
   namespace App\Models;
 
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Concerns\HasUlids;
   use Illuminate\Database\Eloquent\Factories\HasFactory;
   use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,5 +36,23 @@
     public function getNameAttribute($value): string
     {
       return ucwords($value);
+    }
+
+    // Accessor for formatted created_at
+    public function getFormattedCreatedAtAttribute(): string
+    {
+      return Carbon::parse($this->created_at)->format('d-m-Y H:i:s');
+    }
+
+    // Accessor for formatted updated_at
+    public function getFormattedUpdatedAtAttribute(): string
+    {
+      return Carbon::parse($this->updated_at)->format('d-m-Y H:i:s');
+    }
+
+    // Accessor for formatted email_verified_at
+    public function getFormattedEmailVerifiedAtAttribute(): ?string
+    {
+      return $this->email_verified_at ? Carbon::parse($this->email_verified_at)->format('d-m-Y H:i:s') : null;
     }
   }
